@@ -1,0 +1,125 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    right: -50rem;
+  }
+  100% {
+    right: 0;
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    position: absolute;
+    right: 50rem;
+  }
+  100% {
+    position: unset;
+    right: 0;
+  }
+}
+
+@keyframes slideInLeft2 {
+  0% {
+    transform: translateX(20rem);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes zoomInOut {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  60% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes slideCard1 {
+  0% {
+    transform: translateY(-23rem) scale(0.8);
+    transform-origin: top;
+  }
+
+  100% {
+    transform: translateY(-18rem) scale(1);
+  }
+}
+@keyframes slideCard2 {
+  0% {
+    transform-origin: top;
+    transform: translateY(-23rem) scale(0.8);
+  }
+
+  100% {
+    transform: translateY(-18rem) scale(1);
+  }
+}
+
+@keyframes slideCard3 {
+  0% {
+    transform: translateY(-0rem) scale(1) rotate(10deg);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+  }
+
+  50% {
+    transform: translateY(-4rem) scale(1.03) rotate(5deg);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+  }
+
+  100% {
+    transform-origin: top;
+    transform: translateY(0) scale(1) rotate(0deg);
+    box-shadow: 0 0 0;
+  }
+}
+
+@keyframes slideCard4 {
+  0% {
+    transform: translateY(-0rem) scale(1) rotate(10deg);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+  }
+
+  50% {
+    transform: translateY(-4rem) scale(1.03) rotate(5deg);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+  }
+
+  100% {
+    transform-origin: top;
+    transform: translateY(0) scale(1) rotate(0deg);
+    box-shadow: 0 0 0;
+  }
+}

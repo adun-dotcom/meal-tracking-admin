@@ -1,0 +1,27 @@
+@import "~bootstrap/scss/bootstrap.scss";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "./styles/abstracts/functions";
+@import "./styles/abstracts/mixins";
+@import "./styles/abstracts/variables";
+
+@import "./styles/base/animation";
+@import "./styles/base/base";
+@import "./styles/base/typography";
+@import "./styles/base/utilities";
+@import "./styles/components/busy-overlay";
+@import "./styles/layout/wrapper";
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}

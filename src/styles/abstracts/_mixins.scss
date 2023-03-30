@@ -1,0 +1,88 @@
+@mixin respond($breakpoint) {
+  @if $breakpoint == large {
+    @media (max-width: 90.625em) {
+      // 1450px
+      @content;
+    }
+  }
+  @if $breakpoint == medium {
+    @media (max-width: 62.5em) {
+      // 1000px
+      @content;
+    }
+  }
+  @if $breakpoint == small {
+    @media (max-width: 56.25em) {
+      // 900px
+      @content;
+    }
+  }
+  @if $breakpoint == smaller {
+    @media (max-width: 51.875em) {
+      // 830px
+      @content;
+    }
+  }
+
+  @if $breakpoint == tablet {
+    @media (max-width: 40.625em) {
+      // 650px
+      @content;
+    }
+  }
+
+  @if $breakpoint == mobile {
+    @media (max-width: 37.5em) {
+      // 600px
+      @content;
+    }
+  }
+
+  @if $breakpoint == mini-mobile {
+    @media (max-width: 31.875em) {
+      // 500px
+      @content;
+    }
+  } @else {
+    @media (max-width: $breakpoint) {
+      //customize
+      @content;
+    }
+  }
+}
+
+@mixin dashboardWrapper {
+  margin: auto;
+  margin-top: 10rem;
+  width: fit-content;
+  min-width: 50rem;
+  width: 50rem;
+  animation: fadeIn 1s;
+
+  @include respond(tablet) {
+    width: 90%;
+    min-width: 90%;
+  }
+}
+
+@mixin overlayBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000000;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(#000, 0.8);
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+  @supports (-webkit-backdrop-filter: blur(10px)) or
+    (backdrop-filter: blur(10px)) {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(6px);
+    background-color: rgba(#000, 0.3);
+  }
+}

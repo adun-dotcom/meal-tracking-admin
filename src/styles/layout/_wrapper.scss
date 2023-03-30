@@ -1,0 +1,266 @@
+$tablet_maximum: 768px;
+
+.user-avatar {
+  background-color: #ff8303 !important;
+  &.upload-image {
+    &:hover {
+      background: linear-gradient(180deg, hsl(255, 11%, 22%), transparent);
+      cursor: pointer;
+    }
+  }
+}
+
+.dashboard__wrapper {
+  height: 100vh;
+  header {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    height: 80px;
+    width: 82%;
+    border-bottom: 1px solid #eef1f8;
+    background: white;
+    z-index: 2;
+    @include respond($tablet_maximum) {
+      width: 100%;
+    }
+
+    @include respond(mobile) {
+      height: 97px;
+    }
+    .header {
+      &__wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 24px 4.72%;
+        @include respond(1350px) {
+          padding: 24px calc(56px + 4.72%);
+        }
+        @include respond($tablet_maximum) {
+          padding: 29px 24px;
+        }
+      }
+      &__hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        span {
+          display: block;
+          height: 3px;
+          width: 24px;
+          background: #0f1414;
+          border-radius: 1px;
+          transform-origin: 10% 40%;
+          transition: all 0.2s ease-in;
+        }
+        &.open {
+          span:first-child {
+            transform: rotate(45deg);
+            transition: transform 0.2s ease-in;
+          }
+          span:nth-child(2) {
+            animation: fadeOut 0.4s;
+            opacity: 0;
+            transition: all 0.2s ease-in;
+          }
+          span:last-child {
+            transform: rotate(-45deg);
+            transition: transform 0.2s ease-in;
+          }
+        }
+        &.open {
+          opacity: 0;
+        }
+        @media (min-width: 769px) {
+          display: none;
+        }
+      }
+      &__title * {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 2em;
+        line-height: 27px;
+        color: #0f1414;
+        text-transform: capitalize;
+        margin: 0;
+
+        @include respond(small) {
+          font-size: 16px;
+          line-height: 22px;
+          text-align: center;
+        }
+      }
+      &__avatar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        #logout {
+          padding: 12px !important;
+          margin-left: 10px !important;
+          height: 15px !important;
+          width: 15px !important;
+        }
+      }
+    }
+    &.open {
+      .header {
+        &__title * {
+          margin-left: 25%;
+        }
+      }
+    }
+  }
+  aside {
+    position: fixed;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    width: 17.4%;
+    height: 100%;
+    border-right: 1px solid #dedddd;
+    background: #ffffff;
+    @include respond($tablet_maximum) {
+      display: none;
+      animation: fadeOut 0.4s;
+      &.open {
+        display: block;
+        width: 25vw;
+        z-index: 4;
+        animation: fadeIn 0.4s;
+        transition: all 1s ease-in;
+        @include respond(mini-mobile) {
+          width: 50vw;
+        }
+        .sidebar {
+          &__links {
+            animation: slideInRight 1s ease-in;
+          }
+        }
+      }
+    }
+    .sidebar {
+      &__wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 64px;
+        @include respond($tablet_maximum) {
+          gap: 32px;
+        }
+      }
+      &__header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        cursor: pointer;
+        @include respond($tablet_maximum) {
+          padding: 39px 24px;
+          img {
+            display: none;
+          }
+        }
+      }
+      &__hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        span {
+          display: block;
+          height: 3px;
+          width: 24px;
+          background: white;
+          border-radius: 1px;
+          transform-origin: 10% 40%;
+        }
+        span:first-child {
+          transition: transform 0.2s ease-in;
+        }
+        span:nth-child(2) {
+          transition: all 0.2s ease-in;
+        }
+        span:last-child {
+          transition: transform 0.2s ease-in;
+        }
+        &.open {
+          span:first-child {
+            transform: rotate(45deg);
+          }
+          span:nth-child(2) {
+            animation: fadeOut 0.4s;
+            opacity: 0;
+          }
+          span:last-child {
+            transform: rotate(-45deg);
+          }
+        }
+        @media (min-width: 769px) {
+          display: none;
+        }
+      }
+      &__links {
+        padding: 0 8%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+        @include respond(medium) {
+          padding: 0 3%;
+        }
+      }
+      &__link {
+        padding: 9px 7.75%;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        text-decoration: none;
+        width: 97.3%;
+        @include respond(medium) {
+          padding: 9px 3%;
+        }
+        span {
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 22px;
+          color: #666666;
+        }
+        &.active {
+          background: white;
+          box-shadow: 0px 3px 5px rgba(34, 66, 143, 0.1);
+          border-radius: 8px;
+          span {
+            color: #ff8303;
+          }
+        }
+      }
+    }
+  }
+  &__container {
+    padding: 80px 0 0 17.4%;
+    & > * {
+      width: 100%;
+      transition: all 1s !important;
+    }
+    @include respond($tablet_maximum) {
+      padding: 80px 0 0 0;
+    }
+    @include respond($tablet_maximum) {
+      animation: slideInLeft 1s;
+      &.open {
+        padding: 80px 0 0 0;
+        & > * {
+          margin-left: 25%;
+          transition: all 1s !important;
+          animation: fadeIn 1s;
+          @include respond(mini-mobile) {
+            margin-left: 50%;
+          }
+        }
+      }
+    }
+  }
+}
