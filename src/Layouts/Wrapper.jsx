@@ -81,6 +81,8 @@ const Wrapper = ({ children, topbarTitle, activeLink }) => {
 
   const handleLogout = () => {
     setOpenModal(false);
+    localStorage.clear();
+    navigate("/login");
   };
 
   const handleMenu = () => {
@@ -110,13 +112,6 @@ const Wrapper = ({ children, topbarTitle, activeLink }) => {
 
   return (
     <>
-      <LogoutModal
-        show={openModal}
-        handleCancel={() => setOpenModal(false)}
-        handleDelete={handleLogout}
-        warningMessage={"You might have unsaved changes"}
-        deleteText={"Log Out"}
-      />
       <BusyOverlay loading={isLoading} />
       <main className="dashboard__wrapper">
         <header className={`${open ? "open" : ""}`}>
@@ -146,7 +141,7 @@ const Wrapper = ({ children, topbarTitle, activeLink }) => {
                 size="small"
                 className="text-danger"
                 color="inherit"
-                onClick={() => setOpenModal(true)}
+                onClick={() => handleLogout()}
                 sx={{
                   transform: "scale(2)",
                 }}

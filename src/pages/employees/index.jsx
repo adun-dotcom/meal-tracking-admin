@@ -26,85 +26,89 @@ const EmployeesPage = () => {
   const pageLoader = loading || isLoading;
 
   return (
-    <div>
+    <>
       <EmployeeDialogShell
         refetch={refetch}
         open={openEmployee}
         setOpen={setOpenEmployee}
       />
-      <Wrapper>
-        <div className="px-20">
-          <BusyOverlay loading={pageLoader} text="" />
+      <div>
+        <Wrapper>
+          <div className="px-20">
+            <BusyOverlay loading={pageLoader} text="" />
 
-          <MaterialTable
-            title="Employees"
-            icons={TableIcons}
-            tableRef={tableRef}
-            data={employeeData}
-            columns={[
-              {
-                title: "Staff Id",
-                field: "staffId",
-                render: (data) => (
-                  <div className="trackingId">{data.staffId}</div>
-                ),
-              },
+            <MaterialTable
+              title="Employees"
+              icons={TableIcons}
+              tableRef={tableRef}
+              data={employeeData}
+              columns={[
+                {
+                  title: "Staff Id",
+                  field: "staffId",
+                  render: (data) => (
+                    <div className="trackingId">{data.staffId}</div>
+                  ),
+                },
 
-              {
-                title: "Name",
-                field: "name",
-                render: (data) => <div>adunola odettola</div>,
-              },
-              {
-                title: "Gender",
-                field: "gender",
-                render: (data) => <div>female</div>,
-              },
-              {
-                title: "Department",
-                field: "department",
-                render: (data) => <div className="amount">department</div>,
-              },
-            ]}
-            options={{
-              pageSize: 10,
-              sorting: false,
-              filtering: false,
-              debounceInterval: 500,
-              actionsColumnIndex: -1,
-            }}
-            onRowClick={(event, rowData, togglePanel) => togglePanel?.()}
-            components={{
-              Toolbar: (props) => (
-                <div>
-                  <MTableToolbar {...props} />
+                {
+                  title: "Name",
+                  field: "name",
+                  render: (data) => <div>{data.name}</div>,
+                },
+                {
+                  title: "Gender",
+                  field: "gender",
+                  render: (data) => <div>{data.gender}</div>,
+                },
+                {
+                  title: "Department",
+                  field: "department",
+                  render: (data) => (
+                    <div className="amount">{data.department}</div>
+                  ),
+                },
+              ]}
+              options={{
+                pageSize: 10,
+                sorting: false,
+                filtering: false,
+                debounceInterval: 500,
+                actionsColumnIndex: -1,
+              }}
+              onRowClick={(event, rowData, togglePanel) => togglePanel?.()}
+              components={{
+                Toolbar: (props) => (
+                  <div>
+                    <MTableToolbar {...props} />
 
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      flexWrap: "wrap",
-                      alignItems: "flex-end",
-                      padding: "20px",
-                    }}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setOpenEmployee(true)}
-                      className={`text-lg font-medium flex justify-center items-center rounded-md px-12 py-3  border h-53 bg-orange-400 text-white border-orange-400 w-auto
-      `}
-                      disabled={false}
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        flexWrap: "wrap",
+                        alignItems: "flex-end",
+                        padding: "20px",
+                      }}
                     >
-                      Add Employee
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => setOpenEmployee(true)}
+                        className={`text-lg font-medium flex justify-center items-center rounded-md px-12 py-3  border h-53 bg-orange-400 text-white border-orange-400 w-auto
+      `}
+                        disabled={false}
+                      >
+                        Add Employee
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ),
-            }}
-          />
-        </div>
-      </Wrapper>
-    </div>
+                ),
+              }}
+            />
+          </div>
+        </Wrapper>
+      </div>
+    </>
   );
 };
 
