@@ -57,7 +57,7 @@ export const getHistoryQuery = async (pageNumber) => {
       config
     );
 
-    return response.data.data;
+    return response.data;
   } catch (error) {
     NotificationManager.error(error, "Error");
   }

@@ -6,6 +6,8 @@ import MaterialTable from "material-table";
 import TableIcons from "../../Components/TableIcons";
 import { getHistoryQuery } from "../../operations/mutation.def";
 import { useQuery } from "react-query";
+import Moment from "react-moment";
+import "moment-timezone";
 
 const DashboardPage = () => {
   const tableRef = useRef();
@@ -15,9 +17,11 @@ const DashboardPage = () => {
     return getHistoryQuery(0);
   });
 
+  const orderCount = data?.count;
+
   useEffect(() => {
     if (data) {
-      setHistoryData(data);
+      setHistoryData(data?.data);
     }
   }, [data, historyData]);
 
@@ -34,11 +38,13 @@ const DashboardPage = () => {
                 alt=""
               />
             </div>
-            <div className="border-2 h-full flex flex-col space-y-4 border-orange-400 rounded-2xl p-6">
+            <div className="border-2 h-full flex flex-col space-y-4 border-orange-400 rounded-2xl py-10 px-6">
               <p className="text-neutral-500 text-base font-medium">
                 No of ordered meals
               </p>
-              <h2 className="text-orange-400 font-bold text-xl">50,000</h2>
+              <h2 className="text-orange-400 text-center font-bold text-xl">
+                {orderCount}
+              </h2>
             </div>
           </div>
           <div className="mt-20">
@@ -67,7 +73,17 @@ const DashboardPage = () => {
                 {
                   title: "Date/Time",
                   field: "date/time",
-                  render: (data) => <div>{data?.lastLoginDate}</div>,
+                  render: (data) => (
+                    <div>
+                      <p>
+                        {
+                          <Moment format="DD-MMM-YY -  hh:mm A">
+                            {new Date(data?.createdDate)}
+                          </Moment>
+                        }
+                      </p>
+                    </div>
+                  ),
                 },
                 {
                   title: "Status",
@@ -88,7 +104,7 @@ const DashboardPage = () => {
                 debounceInterval: 500,
                 actionsColumnIndex: -1,
               }}
-              onRowClick={(event, rowData, togglePanel) => togglePanel?.()}
+              // onRowClick={(event, rowData, togglePanel) => togglePanel?.()}
             />
           </div>
         </div>
