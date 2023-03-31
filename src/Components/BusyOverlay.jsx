@@ -13,7 +13,7 @@ const CustomSpinner = ({
   return (
     <div className="custom-spinner" style={style}>
       <div
-        className="custom-spinner__spinner"
+        className="spinner"
         style={{
           height: size || "7rem",
           width: size || "7rem",
@@ -38,7 +38,7 @@ const BusyOverlay = ({ loading, text, speed }) => {
   const [isBusy, setIsBusy] = useState(false);
 
   return (
-    <div className={loading || isBusy ? "busy-overlay--show" : "busy-overlay"}>
+    <div className={loading || isBusy ? "busy-overlay-show" : "busy-overlay"}>
       <CustomSpinner
         text={text}
         textSize="1.5rem"

@@ -8,12 +8,8 @@ import DashboardIcon from "../assets/dashboard-icon.svg";
 import DashboardIconActive from "../assets/dashboard-icon-active.svg";
 import QrCodeIcon from "../assets/qrcode-icon.svg";
 import QrCodeIconActive from "../assets/qrcode-icon-active.svg";
-import OrdersIcon from "../assets/order-icon.svg";
-import OrdersIconActive from "../assets/order-icon-active.svg";
 import EmployeeIcon from "../assets/employee.svg";
 import EmployeeIconActive from "../assets/employee-active.svg";
-import MealBankIcon from "../assets/meal-bank.svg";
-import MealBankIconActive from "../assets/meal-bank-active.svg";
 import MaleAvatar from "../assets/male-avatar.svg";
 import BusyOverlay from "../Components/BusyOverlay";
 export const sidebarLinks = [
@@ -21,7 +17,7 @@ export const sidebarLinks = [
     name: "Dashboard",
     icon: DashboardIcon,
     activeIcon: DashboardIconActive,
-    link: "/",
+    link: "/dashboard",
   },
   {
     name: "QR Code",
@@ -29,23 +25,12 @@ export const sidebarLinks = [
     activeIcon: QrCodeIconActive,
     link: "/qr-code",
   },
-  {
-    name: "Orders",
-    icon: OrdersIcon,
-    activeIcon: OrdersIconActive,
-    link: "/orders",
-  },
+
   {
     name: "Employees",
     icon: EmployeeIcon,
     activeIcon: EmployeeIconActive,
     link: "/employees",
-  },
-  {
-    name: "Meal Bank",
-    icon: MealBankIcon,
-    activeIcon: MealBankIconActive,
-    link: "/meal-bank",
   },
 ];
 
@@ -118,7 +103,7 @@ const Wrapper = ({ children, topbarTitle, activeLink }) => {
     const sidebarLink = sidebarLinks.find((s) =>
       activeLink ? pathname === activeLink : pathname === s.link
     );
-    setTitle(topbarTitle || sidebarLink.name);
+    setTitle(topbarTitle || sidebarLink?.name);
   }, [pathname, topbarTitle, activeLink]);
 
   const isLoading = loading;

@@ -25,3 +25,94 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.custom-spinner {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin: auto;
+}
+
+.custom-spinner .spinner {
+  animation: spin 1.5s linear infinite;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.custom-spinner .spinner ~ span {
+  color: red;
+  margin-left: 1rem;
+}
+
+.busy-overlay {
+  display: none;
+}
+
+.busy-overlay-show {
+  position: fixed;
+  z-index: 100000000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(31, 24, 24, 0.5);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-code-shadow {
+  box-shadow: 0px 2.317124843597412px 55.61099624633789px 0px #f2482240;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    right: -50rem;
+  }
+  100% {
+    right: 0;
+  }
+}
+
+@keyframes slideInLeft2 {
+  0% {
+    transform: translateX(20rem);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes zoomInOut {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  60% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

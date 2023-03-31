@@ -1,10 +1,12 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import CloseIcon from "@material-ui/icons/Close";
 import ButtonComponent from "./button";
 import { Grid, IconButton, Input } from "@mui/material";
 import * as yup from "yup";
 import { useFormik } from "formik";
+import { useAddEmployeeMutation } from "../operations/mutations";
+import BusyOverlay from "./BusyOverlay";
 
 const EmployeeDialogShell = ({
   actionButtonText,
@@ -12,32 +14,26 @@ const EmployeeDialogShell = ({
   loading,
   open,
   setOpen,
+  refetch,
   maxWidth = "sm",
 }) => {
+  const { mutate, data, isLoading, isError } = useAddEmployeeMutation();
+
   const validationSchema = yup.object().shape({
-    firstName: yup.string().required("What is your first name?"),
-    lastName: yup.string().required("What is your last name?"),
+    name: yup.string().required("Please enter employee's name?"),
+    gender: yup.string().required("Please enter employee's gender?"),
+    department: yup.string().required("Please enter employee's department?"),
+
     email: yup
       .string()
       .email("Please enter a valid email address")
       .required("What is your email address?"),
-    phoneNumber: yup.string().required("What is your phone number?"),
-    password: yup
-      .string()
-      .min(8, "Please enter a password that is longer than 8 characters")
-      .required("Please enter your password"),
-    accountType: yup.string().required("Please select your account type"),
   });
   const defaultValues = {
-    firstName: "",
-    lastName: "",
+    name: "",
+    department: "",
     email: "",
-    phoneNumber: "",
-    password: "",
-    accountType: "",
-    source: "",
-    businessName: "",
-    logo: "",
+    gender: "",
   };
   const [initialValues, setInitialValues] = useState(defaultValues);
 
@@ -46,10 +42,21 @@ const EmployeeDialogShell = ({
       initialValues,
       validationSchema,
       enableReinitialize: true,
-      onSubmit: async (values) => {},
+      onSubmit: async (values) => {
+        mutate(values);
+      },
     });
+
+  useEffect(() => {
+    if (data) {
+      setOpen(false);
+      refetch();
+    }
+  }, [data, open]);
+
   return (
     <div>
+      <BusyOverlay loading={isLoading} />
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -65,11 +72,11 @@ const EmployeeDialogShell = ({
         </div>
 
         <div className="border-t border-white w-full">
-          <form onSubmit={(e) => e.preventDefault()} className="p-4">
+          <form onSubmit={handleSubmit} className="p-4">
             <div className="flex w-full justify-between space-x-5 mt-3">
               <div className="w-1/2">
                 <label
-                  for="email"
+                  for="name"
                   className="form-label font-medium text-sm text-left  text-gray-100"
                 >
                   Employee Name
@@ -94,14 +101,17 @@ const EmployeeDialogShell = ({
                   shadow
                   m-0
                   focus:text-dark-100 focus:bg-white focus:border-orange-400 focus:outline-none placeholder:text-gray-200"
-                    id="email"
+                    id="name"
                     onChange={handleChange}
-                    value={values.email}
-                    error={Boolean(errors.email)}
-                    aria-describedby="email"
-                    placeholder="name@gmail.com"
+                    value={values.name}
+                    error={Boolean(errors.name)}
+                    aria-describedby="name"
+                    placeholder="Employee name"
                   />
                 </div>
+                <small id="email" className="block mt-1 text-sm text-red-600">
+                  {errors.name}
+                </small>
               </div>
               <div className="w-1/2 ">
                 <label
@@ -138,12 +148,15 @@ const EmployeeDialogShell = ({
                     placeholder="name@gmail.com"
                   />
                 </div>
+                <small id="email" className="block mt-1 text-sm text-red-600">
+                  {errors.email}
+                </small>
               </div>
             </div>
             <div className="flex w-full justify-between mt-6 space-x-5">
               <div className="w-1/2">
                 <label
-                  for="email"
+                  for="department"
                   className="form-label font-medium text-sm text-left  text-gray-100"
                 >
                   Employee department
@@ -168,25 +181,31 @@ const EmployeeDialogShell = ({
                   shadow-lg
                   m-0
                   focus:text-dark-100 focus:bg-white focus:border-orange-400 focus:outline-none placeholder:text-gray-200"
-                    id="email"
+                    id="department"
                     onChange={handleChange}
-                    value={values.email}
-                    error={Boolean(errors.email)}
-                    aria-describedby="email"
-                    placeholder="name@gmail.com"
+                    value={values.department}
+                    error={Boolean(errors.department)}
+                    aria-describedby="department"
+                    placeholder="Engineering"
                   />
                 </div>
+                <small
+                  id="department"
+                  className="block mt-1 text-sm text-red-600"
+                >
+                  {errors.department}
+                </small>
               </div>
               <div className="w-1/2">
                 <label
-                  for="email"
+                  for="gender"
                   className="form-label font-medium text-sm text-left  text-gray-100"
                 >
                   Gender
                 </label>
                 <div className="relative mt-2">
                   <input
-                    type="email"
+                    type="text"
                     className="form-control
                   block
                   w-full
@@ -204,14 +223,17 @@ const EmployeeDialogShell = ({
                   shadow-lg
                   m-0
                   focus:text-dark-100 focus:bg-white focus:border-orange-400 focus:outline-none placeholder:text-gray-200"
-                    id="email"
+                    id="gender"
                     onChange={handleChange}
-                    value={values.email}
-                    error={Boolean(errors.email)}
-                    aria-describedby="email"
-                    placeholder="name@gmail.com"
+                    value={values.gender}
+                    error={Boolean(errors.gender)}
+                    aria-describedby="gender"
+                    placeholder="Female"
                   />
                 </div>
+                <small id="gender" className="block mt-1 text-sm text-red-600">
+                  {errors.gender}
+                </small>
               </div>
             </div>
             <div className="mt-5 flex justify-end">

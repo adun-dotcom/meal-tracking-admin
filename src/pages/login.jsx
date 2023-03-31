@@ -4,9 +4,16 @@ import LoginBg from "../assets/login-bg.png";
 import ButtonComponent from "../Components/button";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { useLoginUserMutation } from "../operations/mutations";
+import { useSendAlert } from "../Components/send-alert";
+import BusyOverlay from "../Components/BusyOverlay";
 
 const LoginPage = () => {
-  const [loading, setLoading] = useState(true);
+  const sendAlert = useSendAlert();
+  const { mutate, data, isLoading, isError } = useLoginUserMutation();
+
+  const [loading, setLoading] = useState(false);
+  const [btnDisabled, setBtnDisabled] = useState(true);
   const navigate = useNavigate();
   const validationSchema = yup.object().shape({
     email: yup
@@ -29,21 +36,36 @@ const LoginPage = () => {
       validationSchema,
       onSubmit: (values) => {
         validateForm(values).then((errors) => {
-          setLoading(false);
-          navigate("/");
+          mutate(values);
+          console.log(data);
         });
       },
     });
 
   useEffect(() => {
     if (values.email && values.password) {
-      setLoading(false);
+      setBtnDisabled(false);
     } else {
-      setLoading(true);
+      setBtnDisabled(true);
     }
-  }, [values, loading]);
+  }, [values, btnDisabled]);
+
+  useEffect(() => {
+    if (data) {
+      sendAlert("Login successful!", "success");
+      navigate("/dashboard");
+    }
+    if (isError) {
+      setLoading(false);
+
+      sendAlert("Error logging!", "error");
+    }
+  }, [data, isError]);
+
+  const pageLoader = isLoading;
   return (
     <div>
+      <BusyOverlay loading={pageLoader} />
       <div className="flex ">
         <div className="w-1/2 min-h-screen">
           <img className="w-full h-full object-cover" src={LoginBg} alt="" />
@@ -94,46 +116,7 @@ const LoginPage = () => {
                 {errors.email}
               </small>
             </div>
-            <div className="form-group mb-10  ">
-              <label
-                for="email"
-                className="form-label font-medium text-base text-left  text-gray-100"
-              >
-                Admin Code
-              </label>
-              <div className="relative mt-2">
-                <input
-                  type="text"
-                  className="form-control
-                  block
-                  w-full
-                  px-4
-                  py-1.5
-                  h-53
-                  text-sm
-                  text-dark-100
-                  invalid:border-orange-400
-                  bg-white bg-clip-padding
-                  border border-solid border-gray-200
-                  rounded
-                  transition
-                  ease-in-out
-                  shadow-lg
-                  m-0
-                  focus:text-dark-100 focus:bg-white focus:border-orange-400 focus:outline-none placeholder:text-gray-200"
-                  id="email"
-                  onChange={handleChange}
-                  value={values.email}
-                  error={Boolean(errors.email)}
-                  aria-describedby="email"
-                  placeholder="Please enter your passcode"
-                />
-              </div>
 
-              <small id="email" className="block mt-1 text-sm text-red-600">
-                {errors.email}
-              </small>
-            </div>
             <div className="form-group mb-6 ">
               <label
                 for="password"
@@ -178,7 +161,7 @@ const LoginPage = () => {
               <ButtonComponent
                 fullWidth
                 btnText="Proceed"
-                disabled={loading}
+                disabled={btnDisabled}
                 //   callToAction={null}
               />
             </div>

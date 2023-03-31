@@ -1,63 +1,53 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Wrapper from "../../Layouts/Wrapper";
-import OverviewGraph from "../../assets/dashboard-graph.png";
 import MaterialTable, { MTableToolbar } from "material-table";
 import BusyOverlay from "../../Components/BusyOverlay";
-import MenuIcon from "../../assets/menu.svg";
-import { Chip, Menu, MenuItem } from "@mui/material";
-import ButtonComponent from "../../Components/button";
 import TableIcons from "../../Components/TableIcons";
 import EmployeeDialogShell from "../../Components/employee-dialog";
-
-const options = ["Edit", "Delete"];
+import { useQuery } from "react-query";
+import { getEmployeesQuery } from "../../operations/mutation.def";
 
 const EmployeesPage = () => {
   const [loading, setLoading] = useState(false);
   const [openEmployee, setOpenEmployee] = useState(false);
   const tableRef = useRef();
   const [anchorEl, setAnchorEl] = useState(null);
-  const ITEM_HEIGHT = 48;
-  const open = Boolean(anchorEl);
+  const [employeeData, setEmployeeData] = useState([]);
 
-  const onActionClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const { isLoading, error, data, refetch } = useQuery("users", () => {
+    return getEmployeesQuery(0);
+  });
 
-  const onMenuItemClick = async (option) => {
-    switch (option) {
-      default:
-        break;
+  useEffect(() => {
+    if (data) {
+      setEmployeeData(data);
     }
-    handleClose();
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  }, [data, employeeData]);
+  const pageLoader = loading || isLoading;
 
   return (
     <div>
-      <EmployeeDialogShell open={openEmployee} setOpen={setOpenEmployee} />
+      <EmployeeDialogShell
+        refetch={refetch}
+        open={openEmployee}
+        setOpen={setOpenEmployee}
+      />
       <Wrapper>
         <div className="px-20">
-          <BusyOverlay loading={loading} text="" />
+          <BusyOverlay loading={pageLoader} text="" />
 
           <MaterialTable
             title="Employees"
             icons={TableIcons}
             tableRef={tableRef}
-            data={[
-              {
-                staffId: 122,
-                name: "adun sjjs",
-                gender: "gender",
-              },
-            ]}
+            data={employeeData}
             columns={[
               {
                 title: "Staff Id",
                 field: "staffId",
-                render: (data) => <div className="trackingId">jjjj</div>,
+                render: (data) => (
+                  <div className="trackingId">{data.staffId}</div>
+                ),
               },
 
               {
@@ -83,20 +73,6 @@ const EmployeesPage = () => {
               debounceInterval: 500,
               actionsColumnIndex: -1,
             }}
-            actions={[
-              {
-                tooltip: "Select More Actions For This Employee",
-                icon: MenuIcon,
-                onClick: onActionClick,
-                position: "row",
-              },
-              {
-                tooltip: "Select More Actions For This Employee",
-                icon: MenuIcon,
-                onClick: onActionClick,
-                position: "toolbarOnSelect",
-              },
-            ]}
             onRowClick={(event, rowData, togglePanel) => togglePanel?.()}
             components={{
               Toolbar: (props) => (
@@ -126,34 +102,6 @@ const EmployeesPage = () => {
               ),
             }}
           />
-
-          <Menu
-            id="long-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={open}
-            onClose={handleClose}
-            PaperProps={{
-              style: {
-                maxHeight: ITEM_HEIGHT * 4.5,
-                width: "20ch",
-              },
-            }}
-          >
-            {options.map((option) => (
-              <MenuItem
-                key={option}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-
-                  onMenuItemClick(option);
-                }}
-              >
-                {option}
-              </MenuItem>
-            ))}
-          </Menu>
         </div>
       </Wrapper>
     </div>

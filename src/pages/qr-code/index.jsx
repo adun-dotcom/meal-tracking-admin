@@ -2,51 +2,48 @@ import React, { useState } from "react";
 import Moment from "react-moment";
 import "moment-timezone";
 import Wrapper from "../../Layouts/Wrapper";
+import QrCodeImg from "../../assets/qr-code.jpeg";
+import ButtonComponent from "../../Components/button";
+import { generateBarcode } from "../../operations/mutation.def";
+import BusyOverlay from "../../Components/BusyOverlay";
+import { useQuery } from "react-query";
 
 const QrCodePage = () => {
-  const [switchTab, setSwitchTab] = useState("scan");
+  const [generateCode, setGenerateCode] = useState(false);
+  const { isLoading } = useQuery("barcode", generateBarcode, {
+    enabled: generateCode,
+  });
 
+  const handleGenerateBarCode = () => {
+    setGenerateCode(true);
+    window.open(
+      `https://beertech-production.up.railway.app/v1/auth/barcode`,
+      "_blank"
+    );
+  };
   return (
     <div>
-      <Wrapper>
-        <div className="px-20">
-          <div className="flex h-screen">
-            <div className="w-1/2 border-r border-gray-600">
-              <div className="flex justify-between pr-20">
-                <h2 className="text-gray-400 font-bold text-xl">
-                  Scan Qr Code
-                </h2>
-                <div className="border-2 rounded border-gray-400 bg-white px-3 py-2">
-                  <Moment format="DD/MM/YYYY ">{new Date()}</Moment>
-                </div>
-              </div>
-              <div className="flex flex-col justify-center mt-14">
-                <div className="rounded-lg h-376 w-361 bg-black"></div>
-                <div className="border w-64 h-58 py-2 px-3 mt-5 flex justify-center border-neutral-200 bg-neutral-300 rounded-xl  ">
-                  <div
-                    onClick={() => setSwitchTab("scan")}
-                    className={`${
-                      switchTab === "scan"
-                        ? "bg-orange-400 text-white"
-                        : "bg-transparent text-gray-400"
-                    } flex font-medium items-center justify-center text-center rounded-full w-1/2 `}
-                  >
-                    Scan
-                  </div>
-                  <div
-                    onClick={() => setSwitchTab("stop")}
-                    className={`${
-                      switchTab === "stop"
-                        ? "bg-orange-400 text-white"
-                        : "bg-transparent text-gray-400"
-                    } flex font-medium items-center justify-center text-center rounded-full w-1/2 `}
-                  >
-                    Stop
-                  </div>
-                </div>
-              </div>
+      <BusyOverlay loading={isLoading} />
 
-              <div className=""></div>
+      <Wrapper>
+        <div className="px-20 h-screen">
+          <div className="w-full flex justify-end">
+            <ButtonComponent
+              btnText="Print QR Code"
+              disabled={false}
+              callToAction={handleGenerateBarCode}
+            />
+          </div>
+          <div className="flex justify-center mt-10">
+            <div className="qr-code-shadow bg-white rounded-2xl w-500 h-578 p-5">
+              <div className="border-4 flex flex-col justify-between rounded-2xl p-4 border-dashed border-gray-400 h-full">
+                <div className="border-4 border-gray-400 px-3 pt-3 rounded-2xl">
+                  <img className="h" src={QrCodeImg} alt="" />
+                </div>
+                <h3 className="pt-6 text-center font-semibold text-gray-400 text-2xl px-6">
+                  Scan to process today's meal
+                </h3>
+              </div>
             </div>
           </div>
         </div>
