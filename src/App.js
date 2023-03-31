@@ -20,13 +20,7 @@ function App() {
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<LoginPage />} />
 
-          <Route
-            exact
-            path="/dashboard"
-            element={
-              !!accessToken ? <DashboardPage /> : <Navigate to="/login" />
-            }
-          />
+          <Route exact path="/dashboard" element={<DashboardPage />} />
           <Route
             exact
             path="/employees"

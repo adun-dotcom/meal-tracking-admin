@@ -37,7 +37,6 @@ const LoginPage = () => {
       onSubmit: (values) => {
         validateForm(values).then((errors) => {
           mutate(values);
-          console.log(data);
         });
       },
     });
